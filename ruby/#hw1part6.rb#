@@ -1,0 +1,39 @@
+#Advanced OOP, Metaprogramming, Open Classes and Duck Typing
+class Numeric
+ @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019}
+ def method_missing(method_id, *args)
+   singular_currency = method_id.to_s.gsub( /s$/, '')
+   if @@currencies.has_key?(singular_currency)
+     self * @@currencies[singular_currency]
+   else
+     super
+   end
+ end
+
+ def in(arg)
+ 	singular_currency = arg.to_s.gsub(/s$/,'')
+	if @@currencies.has_key?(singular_currency)
+		self * @@currencies[singular_currency]
+	end
+ end
+ 
+end			#close Numeric
+
+class Array
+ def palindrome?(pal=self)
+ 	pal = pal.join.to_s
+ 	pal == pal.reverse
+ end
+end			#close Array
+
+class String
+	def palindrome?(string=self.to_s)
+		string = string.to_s.downcase
+		string = string.gsub(/[^a-z]/, "")
+		reverse_string = string.reverse
+		val = (string == reverse_string)
+		return val
+	end
+end         #close String
+
+
